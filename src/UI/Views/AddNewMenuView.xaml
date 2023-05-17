@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="UI.Views.AddNewMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:UI.Converters"
+             mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<converters:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToCollapsedConverter"/>
+	</UserControl.Resources>
+
+	<StackPanel VerticalAlignment="Top"
+				HorizontalAlignment="Center">
+		<StackPanel.Resources>
+			<Style TargetType="{x:Type TextBox}">
+				<Setter Property="Width" Value="120"/>
+				<Setter Property="Margin" Value="4"/>
+				<Setter Property="FontSize" Value="14"/>
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="HorizontalAlignment" Value="Center"/>
+			</Style>
+
+			<Style TargetType="{x:Type TextBlock}">
+				<Setter Property="Margin" Value="4"/>
+				<Setter Property="FontSize" Value="14"/>
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="HorizontalAlignment" Value="Center"/>
+			</Style>
+		</StackPanel.Resources>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0"
+					   Text="이름"/>
+			<TextBox x:Name="NameInputBox"
+					 Grid.Row="0"
+					 Grid.Column="1"
+					 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+			<TextBlock Grid.Row="1"
+				   Text="가격(원)"/>
+			<TextBox x:Name="PriceInputBox"
+					 Grid.Row="1"
+					 Grid.Column="1"
+					 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
+
+		</Grid>
+
+		<TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent, ElementName=IdInputBox}"
+				   FontSize="12"
+				   Foreground="Red"
+				   Visibility="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={StaticResource NullOrEmptyToCollapsedConverter}}"/>
+
+		<TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent, ElementName=NameInputBox}"
+				   FontSize="12"
+				   Foreground="Red"
+				   Visibility="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={StaticResource NullOrEmptyToCollapsedConverter}}"/>
+
+		<TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent, ElementName=PriceInputBox}"
+				   FontSize="12"
+				   Foreground="Red"
+				   Visibility="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={StaticResource NullOrEmptyToCollapsedConverter}}"/>
+
+		<Button Grid.Row="4"
+				Grid.ColumnSpan="2"
+				HorizontalAlignment="Stretch"
+				Padding="16 8"
+				Margin="4"
+				FontSize="16"
+				Content="추가"
+				Command="{Binding AddCommand}"/>
+
+	</StackPanel>
+</UserControl>
